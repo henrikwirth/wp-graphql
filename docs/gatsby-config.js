@@ -1,5 +1,10 @@
 const themeOptions = require('gatsby-theme-apollo-docs/theme-options')
 
+const githubRepositories = [
+  { githubRepo: 'wp-graphql/wp-graphql-acf', branch: 'master', name: 'wpgraphql-advanced-custom-fields' },
+  { githubRepo: 'wp-graphql/wp-graphql-woocommerce', branch: 'develop', name: 'wpgraphql-woocommerce' },
+]
+
 module.exports = {
   siteMetadata: {
     siteName: `WPGraphQL`,
@@ -123,8 +128,6 @@ module.exports = {
             'guides/testing',
           ],
           Extensions: [
-            'extensions/wpgraphql-advanced-custom-fields',
-            'extensions/wpgraphql-woocommerce',
             'extensions/wpgraphql-tax-query',
             'extensions/wpgraphql-meta-query',
             'extensions/wpgraphql-insights',
@@ -137,6 +140,15 @@ module.exports = {
         },
       },
     },
+    ...githubRepositories.map(({ githubRepo, branch, name }) => ({
+      resolve: 'gatsby-source-git',
+      options: {
+        name: name,
+        remote: `https://github.com/${githubRepo}.git`,
+        branch: branch,
+        patterns: '*README.md', //TODO: only get the README
+      },
+    })),
     `gatsby-plugin-netlify`,
     `gatsby-plugin-netlify-cache`,
   ],

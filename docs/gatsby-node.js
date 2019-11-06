@@ -1,3 +1,6 @@
+const createExtensions = require("./create/createExtensions")
+
+
 exports.createSchemaCustomization = ({ actions }) => {
   actions.createTypes(`
         type File implements Node @infer {
@@ -22,4 +25,14 @@ exports.createSchemaCustomization = ({ actions }) => {
             description: String
         }
     `)
+}
+
+
+exports.createPagesStatefully = async ({ graphql, actions, reporter }, options) => {
+
+  console.log("--------> createPages", "Starting")
+
+  await createExtensions({ actions, graphql, reporter }, options)
+
+
 }
